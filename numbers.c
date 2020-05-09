@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include <ctype.h> 
 #include "array.h"
 #include "array_void.h"
 
@@ -16,14 +17,15 @@ int get_sum(int sum, int number) {
 }
 
 Object add(Object sum, Object number) {
-  int total = *(int *)sum + *(int *)number;
-  return (sum = &total);
+  int *total = malloc(sizeof(int));
+  *total = *(int *)sum + *(int *)number;
+  return (sum = total);
 }
 
-Object increment(Object number) {
-  int *num = malloc(sizeof(int));
-  *num = *(int *)number + 1;
-  return num;
+Object to_lower_case(Object character) {
+  char *alphabet = malloc(sizeof(char));
+  *alphabet = tolower(*(char *)character);
+  return alphabet;
 }
 
 void display_dynamic_array(Array *list) {
@@ -32,9 +34,9 @@ void display_dynamic_array(Array *list) {
   }
 } 
 
-void display_int_array(ArrayVoid_ptr list) {
+void display_char_array(ArrayVoid_ptr list) {
   for (int index = 0; index < list->length; index++) {
-    printf("%d\n", *(int *)list->array[index]);
+    printf("%c\n", *(char *)list->array[index]);
   }
 } 
 
@@ -55,14 +57,21 @@ int main() {
   printf("The sum is %d\n", sum);
 
   ArrayVoid_ptr array = create_array_void(5);
+  char name[5] = "NOORA";
+  array->array[0] = &name[0];
+  array->array[1] = &name[1];
+  array->array[2] = &name[2];
+  array->array[3] = &name[3];
+  array->array[4] = &name[4];
+  ArrayVoid_ptr incremented_numbers = map_void(array, &to_lower_case);
+  display_char_array(incremented_numbers);
+
+  int context = 0;
   array->array[0] = &numbers->array[0];
   array->array[1] = &numbers->array[1];
   array->array[2] = &numbers->array[2];
   array->array[3] = &numbers->array[3];
   array->array[4] = &numbers->array[4];
-  int context = 0;
-  ArrayVoid_ptr incremented_numbers = map_void(array, &increment);
-  display_int_array(incremented_numbers);
   Object result = reduce_void(array, &context, &add);
   printf("The void sum : %d\n", *(int *)result);
   return 0;
