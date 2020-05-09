@@ -22,6 +22,10 @@ Object add(Object sum, Object number) {
   return (sum = total);
 }
 
+Bool is_even(Object number) {
+  return *(int *)number % 2 == 0 ? True : False;
+}
+
 Object to_lower_case(Object character) {
   char *alphabet = malloc(sizeof(char));
   *alphabet = tolower(*(char *)character);
@@ -39,6 +43,13 @@ void display_char_array(ArrayVoid_ptr list) {
     printf("%c\n", *(char *)list->array[index]);
   }
 } 
+
+void display_int_array(ArrayVoid_ptr list) {
+  for (int index = 0; index < list->length; index++)
+  {
+    printf("%d\n", *(int *)list->array[index]);
+  }
+}
 
 int main() {
   Array *numbers = create_dynamic_array(5);
@@ -72,6 +83,11 @@ int main() {
   array->array[2] = &numbers->array[2];
   array->array[3] = &numbers->array[3];
   array->array[4] = &numbers->array[4];
+
+  ArrayVoid_ptr evens = filter_void(array, &is_even);
+  printf("\nvoid filter\n");
+  display_int_array(evens);
+
   Object result = reduce_void(array, &context, &add);
   printf("The void sum : %d\n", *(int *)result);
   return 0;
