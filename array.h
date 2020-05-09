@@ -16,6 +16,8 @@ typedef struct
   int length;
 } Array;
 
+Array *create_dynamic_array(int length);
+
 Array *map(Array *src, Mapper mapper);
 Array *filter(Array *src, Predicate predicate);
 int reduce(Array *src, int init, Reducer reducer);
