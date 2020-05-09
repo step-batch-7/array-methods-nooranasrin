@@ -3,16 +3,21 @@
 #include "array.h"
 #include "array_void.h"
 
-int get_square(number) {
+int get_square(int number) {
   return number * number;
 }
 
-Bool is_odd(number) {
+Bool is_odd(int number) {
   return number % 2 != 0 ? True : False;
 }
 
-int get_sum(sum, number) {
+int get_sum(int sum, int number) {
   return sum + number;
+}
+
+Object add(Object sum, Object number) {
+  int total = *(int *)sum + *(int *)number;
+  return (sum = &total);
 }
 
 void display_dynamic_array(Array *list) {
@@ -27,7 +32,7 @@ int main() {
   numbers->array[1] = 2;
   numbers->array[2] = 3;
   numbers->array[3] = 4;
-  numbers->array[4] = 15;
+  numbers->array[4] = 5;
   Array *squares = map(numbers, &get_square);
   display_dynamic_array(squares);
   printf("\n");
@@ -37,11 +42,14 @@ int main() {
   int sum = reduce(numbers, 0, &get_sum);
   printf("The sum is %d\n", sum);
 
-  ArrayVoid *array = create_array_void(5);
-  array->array[0] = (int *)1;
-  array->array[1] = (int *)2;
-  array->array[2] = (int *)3;
-  array->array[3] = (int *)4;
-  array->array[4] = (int *)5;
+  ArrayVoid_ptr array = create_array_void(5);
+  array->array[0] = &numbers->array[0];
+  array->array[1] = &numbers->array[1];
+  array->array[2] = &numbers->array[2];
+  array->array[3] = &numbers->array[3];
+  array->array[4] = &numbers->array[4];
+  int context = 0;
+  Object result = reduce_void(array, &context, &add);
+  printf("The void sum : %d\n", *(int *)result);
   return 0;
 }

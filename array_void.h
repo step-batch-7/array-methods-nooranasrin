@@ -16,7 +16,7 @@ typedef struct
 
 typedef ArrayVoid *ArrayVoid_ptr;
 
-ArrayVoid* create_array_void(int length);
+ArrayVoid_ptr create_array_void(int length);
 
 ArrayVoid_ptr map_void(ArrayVoid_ptr src, MapperVoid mapper);
 ArrayVoid_ptr filter_void(ArrayVoid_ptr src, PredicateVoid predicate);
