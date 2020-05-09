@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "array.h"
+#include "array_void.h"
 
 int get_square(number) {
   return number * number;
@@ -35,5 +36,12 @@ int main() {
   printf("\n");
   int sum = reduce(numbers, 0, &get_sum);
   printf("The sum is %d\n", sum);
+
+  ArrayVoid *array = create_array_void(5);
+  array->array[0] = (int *)1;
+  array->array[1] = (int *)2;
+  array->array[2] = (int *)3;
+  array->array[3] = (int *)4;
+  array->array[4] = (int *)5;
   return 0;
 }
