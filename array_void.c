@@ -9,6 +9,16 @@ ArrayVoid_ptr create_array_void(int length) {
   return array;
 }
 
+ArrayVoid_ptr map_void(ArrayVoid_ptr src, MapperVoid mapper) {
+  ArrayVoid_ptr mapped_elements = create_array_void(src->length);
+
+  for (int index = 0; index < src->length; index++) {
+    mapped_elements->array[index] = mapper(src->array[index]);
+  }
+
+  return mapped_elements;
+}
+
 Object reduce_void(ArrayVoid_ptr src, Object init, ReducerVoid reducer) {
   Object context = init;
   for(int index = 0; index < src->length; index++) {

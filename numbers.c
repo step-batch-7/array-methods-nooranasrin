@@ -20,9 +20,21 @@ Object add(Object sum, Object number) {
   return (sum = &total);
 }
 
+Object increment(Object number) {
+  int *num = malloc(sizeof(int));
+  *num = *(int *)number + 1;
+  return num;
+}
+
 void display_dynamic_array(Array *list) {
   for (int index = 0; index < list->length; index++) {
     printf("%d\n", list->array[index]);
+  }
+} 
+
+void display_int_array(ArrayVoid_ptr list) {
+  for (int index = 0; index < list->length; index++) {
+    printf("%d\n", *(int *)list->array[index]);
   }
 } 
 
@@ -32,7 +44,7 @@ int main() {
   numbers->array[1] = 2;
   numbers->array[2] = 3;
   numbers->array[3] = 4;
-  numbers->array[4] = 5;
+  numbers->array[4] = 15;
   Array *squares = map(numbers, &get_square);
   display_dynamic_array(squares);
   printf("\n");
@@ -49,6 +61,8 @@ int main() {
   array->array[3] = &numbers->array[3];
   array->array[4] = &numbers->array[4];
   int context = 0;
+  ArrayVoid_ptr incremented_numbers = map_void(array, &increment);
+  display_int_array(incremented_numbers);
   Object result = reduce_void(array, &context, &add);
   printf("The void sum : %d\n", *(int *)result);
   return 0;
